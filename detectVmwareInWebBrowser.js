@@ -16,7 +16,8 @@ export default class DetectVmwareInWebBrowser {
 
     var debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
     var vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-    var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    var renderer="";
+    renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
 
     console.log(vendor);
     console.log(renderer);
@@ -26,7 +27,7 @@ export default class DetectVmwareInWebBrowser {
 
     for(let i=0;i<this.virtualMachineLists.length;i++){
         const item=this.virtualMachineLists[i];
-        if(renderer.inclouds(item)&&renderer.inclouds(item.toLowerCase()){
+        if(renderer.includes(item)||renderer.includes(item.toLowerCase()){
             result=true;
             type=item;
             break;
