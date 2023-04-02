@@ -1,43 +1,47 @@
-export default DetectVmwareInWebBrowser = (param)=> {
-  // This Idea comes from this website:
-  // https://bannedit.github.io/Virtual-Machine-Detection-In-The-Browser.html
-  // Thanks to him and backrunner
-  // If there is infringement, please contact me. 
+window.vmwareDetector = (() => {
+  let detectVmwareInWebBrowser = (param) => {
+    // This Idea comes from this website:
+    // https://bannedit.github.io/Virtual-Machine-Detection-In-The-Browser.html
+    // Thanks to him and backrunner
+    // If there is infringement, please contact me.
 
-  virtualMachineLists=["Vmware","VirtualBox","Hyper-V"]
-  
-  virtualMachineList.push(param)
+    virtualMachineLists = ["Vmware", "VirtualBox", "Hyper-V"];
 
-  usingWebGL = () => {
-    let canvas_detectVmware = document.createElement("canvas_detectVmware");
-    let gl = canvas_detectVmware.getContext("webgl");
+    param ? virtualMachineLists.push(param) : undefined;
 
-    let debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-    let vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-    let renderer="";
-    renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    usingWebGL = () => {
+      let canvas_detectVmware = document.createElement("canvas");
+      document.appendChild(canvas_detectVmware);
+      let gl = canvas_detectVmware.getContext("webgl");
 
-    console.log(vendor);
-    console.log(renderer);
+      let debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+      let vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+      let renderer = "";
+      renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
 
-    let result=false;
-    let type="";
+      console.log(vendor);
+      console.log(renderer);
 
-    for(let i=0;i<this.virtualMachineLists.length;i++){
-        const item=this.virtualMachineLists[i];
-        if(renderer.includes(item)||renderer.includes(item.toLowerCase()){
-            result=true;
-            type=item;
-            break;
+      let result = false;
+      let type = "";
+
+      for (let i = 0; i < virtualMachineLists.length; i++) {
+        const item = virtualMachineLists[i];
+        if (renderer.includes(item) || renderer.includes(item.toLowerCase())) {
+          result = true;
+          type = item;
+          break;
         }
-    }
-    
-    return {
-        result:result,
-        type:"",
-    }
-    
+      }
+
+      return {
+        result: result,
+        type: "",
+      };
+    };
+
+    return usingWebGL();
   };
-  
-  return usingWebGL()
-}
+  // detectVmwareInWebBrowser();
+  return detectVmwareInWebBrowser;
+})();
